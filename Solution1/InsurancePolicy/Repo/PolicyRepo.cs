@@ -42,10 +42,14 @@ namespace InsurancePolicy.Repo
                 {
                    Policy policy = kv.Value;
                    string stringForm = policy.ToString();
-                    policyString += stringForm;
 
+                    
+                    policyString += stringForm;
+                    policyString += "\n \n";
+                    
 
                 }
+
                 return policyString;
 
             }

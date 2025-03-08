@@ -33,14 +33,26 @@ namespace InsurancePolicy.Repo
             
         }
 
-        public void ViewAllPolicy()
+        public string ViewAllPolicy()
         {
+            string policyString = "";
             if (policies.Count > 0)
             {
-                foreach (var policy in policies)
+                foreach (var kv in policies)
                 {
-                    Console.WriteLine(policy);
+                   Policy policy = kv.Value;
+                   string stringForm = policy.ToString();
+                    policyString += stringForm;
+
+
                 }
+                return policyString;
+
+            }
+            else
+            {
+                Console.WriteLine("No policy exist");
+                return policyString;
             }
         }
 

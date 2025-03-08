@@ -15,22 +15,22 @@ namespace InsurancePolicy.Repo
 
         public Policy AddPolicy(Policy input)
         {
-            
-                if (policies.ContainsKey(input.PolicyID))
-                {
 
-                    throw new PolicyAlreadyExistsException();
-                }
+            if (policies.ContainsKey(input.PolicyID))
+            {
+
+                throw new PolicyAlreadyExistsException();
+            }
 
 
-                else
-                {
-                    policies.Add(input.PolicyID, input);
-                    return policies[input.PolicyID];
-                }
+            else
+            {
+                policies.Add(input.PolicyID, input);
+                return policies[input.PolicyID];
+            }
 
-                       
-            
+
+
         }
 
         public string ViewAllPolicy()
@@ -40,19 +40,15 @@ namespace InsurancePolicy.Repo
             {
                 foreach (var kv in policies)
                 {
-                   Policy policy = kv.Value;
-                   string stringForm = policy.ToString();
-
-                    
+                    Policy policy = kv.Value;
+                    string stringForm = policy.ToString();
                     policyString += stringForm;
                     policyString += "\n \n";
-                    
-
                 }
 
                 return policyString;
-
             }
+
             else
             {
                 Console.WriteLine("No policy exist");
@@ -60,7 +56,24 @@ namespace InsurancePolicy.Repo
             }
         }
 
-        
+        public Policy UpdatePolicy(int id, Policy updatedPolicy)
+        {
+            if (policies.ContainsKey(id))
+            {
+                policies[id] = updatedPolicy;
+                return policies[id];
+
+            }
+            else
+            {
+                throw new PolicyNotFoundException("Policy does not exist");
+            }
+
+
+        }
+
+
+
 
     }
 }

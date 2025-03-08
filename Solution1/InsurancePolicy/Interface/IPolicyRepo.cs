@@ -14,6 +14,10 @@ namespace InsurancePolicy.Interface
         Policy AddPolicy(Policy policy);
         string ViewAllPolicy();
 
+        Policy UpdatePolicy(int id , Policy updatedPolicy);
+
+
+
 
 
 

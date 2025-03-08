@@ -33,6 +33,23 @@ namespace InsurancePolicyApp
             string display = repo.ViewAllPolicy();
             Console.WriteLine(display);
 
+            var policy3 = new Policy(1,"Sakshi",PolicyType.Property,new DateTime(2027,1,5), new DateTime(2045, 4, 10));
+            repo.UpdatePolicy(policy3.PolicyID,policy3);
+
+           
+            Console.WriteLine(repo.ViewAllPolicy());
+
+            try
+            {
+                repo.UpdatePolicy(100, policy3);
+            } catch(PolicyNotFoundException ex)
+            {
+                Console.WriteLine("ohh noooo againn!!");
+            }
+
+
+
+
 
 
 

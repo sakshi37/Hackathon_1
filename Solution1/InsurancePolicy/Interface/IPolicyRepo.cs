@@ -12,13 +12,14 @@ namespace InsurancePolicy.Interface
        interface IPolicyRepo
     {
         Policy AddPolicy(Policy policy);
-        //string ViewAllPolicy();
+        string ViewAllPolicy();
 
 
 
 
-        
-       
+
+
+
     }
 
      

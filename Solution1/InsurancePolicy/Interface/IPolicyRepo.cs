@@ -9,17 +9,17 @@ using InsurancePolicy.Model;
 
 namespace InsurancePolicy.Interface
 {
-       interface IPolicyInsurance
+       interface IPolicyRepo
     {
         void AddPolicy(Policy policy); 
         void UpdatePolicy(int policyID, Policy updatedPolicy);
         void DeletePolicy(int policyID);
         Policy GetPolicyById(int policyID);
-        void viewallpolicy();
+        void ViewAllpolicy();
 
 
         Dictionary<int, Policy> GetAllPolicies();
-        List<Policy> GetActivePolicies();
+       
     }
 
      

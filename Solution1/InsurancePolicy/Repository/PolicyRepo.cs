@@ -37,7 +37,7 @@ namespace InsurancePolicy.Repository
                 
                 existing.PolicyHolderName = updatedPolicy.PolicyHolderName;
                 existing.Type = updatedPolicy.Type;
-                existing.StartDate = updatedPolicy.StartDate; 
+                //existing.StartDate = updatedPolicy.StartDate; 
                 existing.EndDate = updatedPolicy.EndDate;
 
                 Console.WriteLine("Your policy has been updated successfully");

@@ -10,45 +10,53 @@ namespace InsurancePolicyApp
     {
         static void Main(string[] args)
         {
-            PolicyRepo repopolicy = new PolicyRepo();
+            PolicyRepo repo = new PolicyRepo();
 
-            while (true)
-            {
-                Console.WriteLine("\n--- Insurance Policy Management System ---");
-                Console.WriteLine("1. Add Policy");
-                Console.WriteLine("2. serched Policy");
-                Console.WriteLine("3. View All Policies");
-                Console.WriteLine("4. Update Policy");
-                Console.WriteLine("5. Delete Policy");
-                Console.WriteLine("6. Exit");
+            Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
+              string display =policy.ToString();
+            Console.WriteLine(display);
 
-                int choice = GetValidIntegerInput("Enter your choice: ");
+            
+            repo.AddPolicy(policy);
+            //PolicyRepo repopolicy = new PolicyRepo();
 
-                switch (choice)
-                {
-                    case 1:
-                        AddPolicy(repopolicy);
-                        break;
-                    case 2:
-                        ShowActivePolicies(repopolicy);
-                        break;
-                    case 3:
-                        ViewAllPolicies(repopolicy);
-                        break;
-                    case 4:
-                        UpdatePolicy(repopolicy);
-                        break;
-                    case 5:
-                        DeletePolicy(repopolicy);
-                        break;
-                    case 6:
-                        Console.WriteLine("Exiting...");
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-            }
+            //while (true)
+            //{
+            //    Console.WriteLine("\n--- Insurance Policy Management System ---");
+            //    Console.WriteLine("1. Add Policy");
+            //    Console.WriteLine("2. serched Policy");
+            //    Console.WriteLine("3. View All Policies");
+            //    Console.WriteLine("4. Update Policy");
+            //    Console.WriteLine("5. Delete Policy");
+            //    Console.WriteLine("6. Exit");
+
+            //    int choice = GetValidIntegerInput("Enter your choice: ");
+
+            //    switch (choice)
+            //    {
+            //        case 1:
+            //            AddPolicy(repopolicy);
+            //            break;
+            //        case 2:
+            //            ShowActivePolicies(repopolicy);
+            //            break;
+            //        case 3:
+            //            ViewAllPolicies(repopolicy);
+            //            break;
+            //        case 4:
+            //            UpdatePolicy(repopolicy);
+            //            break;
+            //        case 5:
+            //            DeletePolicy(repopolicy);
+            //            break;
+            //        case 6:
+            //            Console.WriteLine("Exiting...");
+            //            return;
+            //        default:
+            //            Console.WriteLine("Invalid choice. Please try again.");
+            //            break;
+            //    }
+            //}
         }
 
         private static void ShowActivePolicies(object policyRepo)

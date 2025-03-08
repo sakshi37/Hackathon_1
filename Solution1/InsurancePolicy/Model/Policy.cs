@@ -34,10 +34,7 @@ namespace InsurancePolicy.Model
             EndDate = endDate;
         }
 
-        public Policy()
-        {
-        }
-
+       
         public override string ToString()
         {
             return $"PolicyId:{PolicyID}\nName:{PolicyHolderName}\nType:{Type}\nStartDate:{StartDate}" +

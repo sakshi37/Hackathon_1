@@ -3,25 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using InsurancePolicy.Exceptions;
 using InsurancePolicy.Interface;
 using InsurancePolicy.Model;
 
 namespace InsurancePolicy.Repo
 {
-    public class PolicyRepo:IPolicyRepo
+    public class PolicyRepo : IPolicyRepo
     {
-        Dictionary<int, Policy> policies = new Dictionary<int, Policy> ();
+        Dictionary<int, Policy> policies = new Dictionary<int, Policy>();
 
-        public void AddPolicy(Policy input)
+        public Policy AddPolicy(Policy input)
         {
-            if (policies.ContainsKey(input.PolicyID))
+            
+                if (policies.ContainsKey(input.PolicyID))
+                {
+
+                    throw new PolicyAlreadyExistsException();
+                }
+
+
+                else
+                {
+                    policies.Add(input.PolicyID, input);
+                    return policies[input.PolicyID];
+                }
+
+                       
+            
+        }
+
+        public void ViewAllPolicy()
+        {
+            if (policies.Count > 0)
             {
-                Console.WriteLine("policy with this id already Exist");
-            }
-            else
-            {
-                policies.Add(input.PolicyID,input);
+                foreach (var policy in policies)
+                {
+                    Console.WriteLine(policy);
+                }
             }
         }
+
+        
+
     }
 }
+

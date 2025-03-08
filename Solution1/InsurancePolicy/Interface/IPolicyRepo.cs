@@ -11,14 +11,13 @@ namespace InsurancePolicy.Interface
 {
        interface IPolicyRepo
     {
-        void AddPolicy(Policy policy); 
-        void UpdatePolicy(int policyID, Policy updatedPolicy);
-        void DeletePolicy(int policyID);
-        Policy GetPolicyById(int policyID);
-        void ViewAllpolicy();
+        Policy AddPolicy(Policy policy);
+        //string ViewAllPolicy();
 
 
-        Dictionary<int, Policy> GetAllPolicies();
+
+
+        
        
     }
 

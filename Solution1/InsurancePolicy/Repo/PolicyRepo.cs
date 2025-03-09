@@ -72,6 +72,41 @@ namespace InsurancePolicy.Repo
 
         }
 
+        public Policy ViewById(int id)
+        {
+            if (policies.ContainsKey(id))
+            {
+                return policies[id];
+            }
+
+            else
+            {
+                throw new PolicyNotFoundException("Not found");
+
+            }
+        }
+
+        public Policy DeleteById(int id)
+
+        {
+            if (policies.ContainsKey(id))
+            {
+                Policy deletedpolicy = policies[id];
+                policies.Remove(id);
+                return deletedpolicy;
+
+            }
+            else
+            {
+                throw new PolicyNotFoundException("id does not exist");
+            }
+
+
+
+
+        }
+
+
 
 
 

@@ -20,7 +20,7 @@ namespace InsurancePolicyApp
 
             repo.AddPolicy(policy);
             Policy policy1 = new Policy(2, "Bhushan", PolicyType.Vehicle, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
-            repo.AddPolicy(policy1);
+            repo.AddPolicy(policy1); 
 
             try
             {

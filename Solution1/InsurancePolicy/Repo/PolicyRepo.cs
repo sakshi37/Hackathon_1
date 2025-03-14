@@ -77,9 +77,12 @@ namespace InsurancePolicy.Repo
             }
             else
             {
-                Console.WriteLine("No policy exist");
-                return policyString;
+                throw new PolicyNotFoundException("id does not exist");
             }
+
+
+
+
         }
 
         public Policy UpdatePolicy(int id, Policy updatedPolicy)

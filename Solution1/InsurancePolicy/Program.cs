@@ -15,12 +15,16 @@ namespace InsurancePolicyApp
 
             PolicyRepo repo = new PolicyRepo();
 
-            repo.ViewAllPolicy();
+            
+
+
             Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
+            string display = policy.ToString();
+            Console.WriteLine(display);
 
             repo.AddPolicy(policy);
             Policy policy1 = new Policy(2, "Bhushan", PolicyType.Vehicle, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
-            repo.AddPolicy(policy1);
+            repo.AddPolicy(policy1); 
 
             try
             {
@@ -31,6 +35,11 @@ namespace InsurancePolicyApp
                 Console.WriteLine("OHHHH NOOOOO EROOORSSSSSS");
             }
 
+            string display = repo.ViewAllPolicy();
+            Console.WriteLine(display);
+
+            var policy3 = new Policy(1, "Sakshi", PolicyType.Property, new DateTime(2027, 1, 5), new DateTime(2045, 4, 10));
+            repo.UpdatePolicy(policy3.PolicyID, policy3);
 
             string display = repo.ViewAllPolicy();
             Console.WriteLine(display);

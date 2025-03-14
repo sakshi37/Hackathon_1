@@ -15,39 +15,52 @@ namespace InsurancePolicy.Repo
     public class PolicyRepo : IPolicyRepo
     {
         Dictionary<int, Policy> policies = new Dictionary<int, Policy>();
-        
-        
+
+
         public Policy AddPolicyToDB(Policy input)
         {
+
             string connstring = "something";
             SqlConnection connection = new SqlConnection(connstring);
-            string query = "Insert into Policies (PolicyId, PolicyHolderName, Type, StartDate,  EndDate)"+
-                            "Values (@PolicyId, @PolicyHolderName, @Type, @StartDate, @EndDate)";
-            SqlCommand cmd = new SqlCommand(query, connection);
-            cmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = input.PolicyID;
-            cmd.Parameters.Add("@PolicyHolderName",SqlDbType.VarChar).Value = input.PolicyHolderName;
-            cmd.Parameters.Add("@Type", SqlDbType.).Value = input.Type;
-            cmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = input.StartDate;
-            cmd.Parameters.Add("@EndDate",SqlDbType.DateTime).Value=input.EndDate;
+
+            string checkPolicyExistQuery = "select PolicyId from Policies where PolicyId == @PolicyId ";
+            SqlCommand selectPolicyCmd = new SqlCommand(checkPolicyExistQuery, connection);
+
+            selectPolicyCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = input.PolicyID;
 
             connection.Open();
-                cmd.ExecuteNonQuery();
+
+            SqlDataReader reader = selectPolicyCmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                connection.Close();
+                throw new PolicyAlreadyExistsException();
+            }
+            connection.Close();
+            
+
+            string insertQuery = "Insert into Policies (policy_id, policy_holder_name, type, start_date,  end_date)" +
+                            "Values (@PolicyId, @PolicyHolderName, @Type, @StartDate, @EndDate)";
+            SqlCommand insertCmd = new SqlCommand(insertQuery, connection);
+            insertCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = input.PolicyID;
+            insertCmd.Parameters.Add("@PolicyHolderName", SqlDbType.VarChar).Value = input.PolicyHolderName;
+            insertCmd.Parameters.Add("@Type", SqlDbType.VarChar).Value = input.Type;
+            insertCmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = input.StartDate;
+            insertCmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = input.EndDate;
+
+            connection.Open();
+            
+            insertCmd.ExecuteNonQuery();
+
             connection.Close();
 
-
-               
-            
-            
-
-            
-            
-            
+            return input;
         }
-       
+
 
         public Policy AddPolicy(Policy input)
         {
-            
+
             if (policies.ContainsKey(input.PolicyID))
             {
 
@@ -77,12 +90,9 @@ namespace InsurancePolicy.Repo
             }
             else
             {
-                throw new PolicyNotFoundException("id does not exist");
+                Console.WriteLine("No policy exist");
+                return policyString;
             }
-
-
-
-
         }
 
         public Policy UpdatePolicy(int id, Policy updatedPolicy)

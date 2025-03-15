@@ -74,20 +74,34 @@ namespace InsurancePolicy.Repo
         }
 
 
-        public Policy AddPolicy(Policy input)
+        public Policy ViewByIdDB(int id)
         {
-
-            if (policies.ContainsKey(input.PolicyID))
+            string selectQuery = "select policy_id, policy_holder_name, type, start_date, end_date from policies where policy_id = @PolicyId";
+            SqlCommand selectCmd = new SqlCommand(selectQuery, connection);
+            selectCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = id;
+            connection.Open();
+            SqlDataReader reader = selectCmd.ExecuteReader();
+            if (reader.HasRows)
             {
+                reader.Read();
 
-                throw new PolicyAlreadyExistsException();
+                int policyId = (int)reader[0];
+                string policyHolderName = (string)reader[1];
+                string type = (string)reader[2];
+                DateTime startdate = (DateTime)reader[3];
+                DateTime endtdate = (DateTime)reader[4];
+
+                Policy policy = new Policy(policyId, policyHolderName, type, startdate, endtdate);
+
+                connection.Close();
+                return policy;
             }
-            else
-            {
-                policies.Add(input.PolicyID, input);
-                return policies[input.PolicyID];
-            }
+
+            connection.Close();
+            throw new PolicyNotFoundException("Policy not found");
         }
+
+
 
         public string ViewAllPolicy()
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InsurancePolicy.Model;
+﻿using InsurancePolicy.Model;
 
 
 
@@ -18,6 +13,9 @@ namespace InsurancePolicy.Interface
 
         Policy ViewById(int id);
         Policy DeleteById(int id);
+        void EnsureDeleted();
+        void EnsureCreated();
+        Policy AddPolicyToDB(Policy input)
 
 
      }

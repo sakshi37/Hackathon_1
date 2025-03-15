@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using InsurancePolicy.Model;
+﻿using InsurancePolicy.Model;
 using InsurancePolicy.Repo;
-using InsurancePolicy.Exceptions;
-using System.ComponentModel;
 
 namespace InsurancePolicyApp
 {
@@ -12,77 +8,30 @@ namespace InsurancePolicyApp
 
         static void Main(string[] args)
         {
-
             PolicyRepo repo = new PolicyRepo();
 
-            
-
-
-            Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
-            string display = policy.ToString();
-            Console.WriteLine(display);
-
-            repo.AddPolicy(policy);
-            Policy policy1 = new Policy(2, "Bhushan", PolicyType.Vehicle, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
-            repo.AddPolicy(policy1); 
-
             try
             {
-                repo.AddPolicy(policy1);
+
+
+                repo.EnsureCreated();
+
+
+                Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
+                string display = policy.ToString();
+                Console.WriteLine(display);
+
+                repo.AddPolicyToDB(policy);
+
             }
-            catch (PolicyAlreadyExistsException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("OHHHH NOOOOO EROOORSSSSSS");
+                Console.WriteLine(ex);
             }
-
-            string display = repo.ViewAllPolicy();
-            Console.WriteLine(display);
-
-            var policy3 = new Policy(1, "Sakshi", PolicyType.Property, new DateTime(2027, 1, 5), new DateTime(2045, 4, 10));
-            repo.UpdatePolicy(policy3.PolicyID, policy3);
-
-            string display = repo.ViewAllPolicy();
-            Console.WriteLine(display);
-
-            var policy3 = new Policy(1, "Sakshi", PolicyType.Property, new DateTime(2027, 1, 5), new DateTime(2045, 4, 10));
-            repo.UpdatePolicy(policy3.PolicyID, policy3);
-
-
-            Console.WriteLine(repo.ViewAllPolicy());
-
-            try
+            finally
             {
-                repo.UpdatePolicy(100, policy3);
+                repo.EnsureDeleted();
             }
-            catch (PolicyNotFoundException ex)
-            {
-                Console.WriteLine("ohh noooo againn!!");
-            }
-
-            Console.WriteLine(repo.ViewById(1));
-
-            try
-            {
-                Console.WriteLine(repo.ViewById(100));
-            }
-            catch (PolicyNotFoundException ex)
-            {
-                Console.WriteLine("Policy does not exist with this id");
-            }
-
-            Console.WriteLine(repo.DeleteById(1));
-
-            try
-            {
-                Console.WriteLine(repo.DeleteById(100));
-            }
-            catch (PolicyNotFoundException)
-            {
-                Console.WriteLine("ohh no Againnn!!");
-            }
-            Console.WriteLine(repo.ViewAllPolicy());
-
-
         }
 
 

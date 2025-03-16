@@ -24,9 +24,16 @@ namespace InsurancePolicyApp
                 repo.AddPolicyToDB(policy2);
 
 
-                repo.ViewByIdDB(2);
+                Console.WriteLine(repo.ViewByIdDB(1));
+                Console.WriteLine("-------------------------------------------------------");
+                Console.WriteLine(repo.ViewByIdDB(2));
 
-                repo.DeleteByIdDB(2);
+                Console.WriteLine(repo.DeleteByIdDB(2));
+                Console.WriteLine("-------------------------------------------------------");
+
+                Console.WriteLine(repo.ViewByIdDB(2));
+
+
 
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ namespace InsurancePolicy.Repo
         }
         public void EnsureCreated()
         {
-            string createQuery = "Create table policies(policy_id int,  policy_holder_name varchar(20), type varchar(20), start_date DateTime,  end_date DateTime)";
+            string createQuery = "Create table policies(policy_id int,  policy_holder_name varchar(20), type int, start_date DateTime,  end_date DateTime)";
             SqlCommand createCmd = new SqlCommand(createQuery, connection);
             connection.Open();
             createCmd.ExecuteNonQuery();
@@ -63,7 +63,7 @@ namespace InsurancePolicy.Repo
             SqlCommand insertCmd = new SqlCommand(insertQuery, connection);
             insertCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = input.PolicyID;
             insertCmd.Parameters.Add("@PolicyHolderName", SqlDbType.VarChar, 20).Value = input.PolicyHolderName;
-            insertCmd.Parameters.Add("@Type", SqlDbType.VarChar, 20).Value = input.Type;
+            insertCmd.Parameters.Add("@Type", SqlDbType.Int).Value = input.Type;
             insertCmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = input.StartDate;
             insertCmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = input.EndDate;
 
@@ -90,7 +90,7 @@ namespace InsurancePolicy.Repo
 
                 int policyId = (int)reader[0];
                 string policyHolderName = (string)reader[1];
-                string type = (string)reader[2];
+                PolicyType type = (PolicyType)reader[2];
                 DateTime startdate = (DateTime)reader[3];
                 DateTime endtdate = (DateTime)reader[4];
 
@@ -149,6 +149,7 @@ namespace InsurancePolicy.Repo
 
             string deleteQuery = "Delete from policies where policy_id = @PolicyID";
             SqlCommand deleteCmd = new SqlCommand(deleteQuery, connection);
+            deleteCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = id;
 
             connection.Open();
             deleteCmd.ExecuteNonQuery();

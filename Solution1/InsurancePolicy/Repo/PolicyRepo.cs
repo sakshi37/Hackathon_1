@@ -6,6 +6,9 @@ using InsurancePolicy.Model;
 
 namespace InsurancePolicy.Repo
 {
+
+
+
     public class PolicyRepo : IPolicyRepo
     {
         Dictionary<int, Policy> policies = new Dictionary<int, Policy>();
@@ -138,29 +141,21 @@ namespace InsurancePolicy.Repo
             }
         }
 
-        public Policy ViewById(int id)
+
+        public Policy DeleteByIdDB(int id)
         {
-            if (policies.ContainsKey(id))
-            {
-                return policies[id];
-            }
-            else
-            {
-                throw new PolicyNotFoundException("Not found");
-            }
-        }
-        public Policy DeleteById(int id)
-        {
-            if (policies.ContainsKey(id))
-            {
-                Policy deletedpolicy = policies[id];
-                policies.Remove(id);
-                return deletedpolicy;
-            }
-            else
-            {
-                throw new PolicyNotFoundException("id does not exist");
-            }
+
+            Policy policy = this.ViewByIdDB(id);
+
+            string deleteQuery = "Delete from policies where policy_id = @PolicyID";
+            SqlCommand deleteCmd = new SqlCommand(deleteQuery, connection);
+
+            connection.Open();
+            deleteCmd.ExecuteNonQuery();
+            connection.Close();
+
+            return policy;
+
         }
     }
 }

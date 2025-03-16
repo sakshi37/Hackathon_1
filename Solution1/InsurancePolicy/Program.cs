@@ -17,11 +17,16 @@ namespace InsurancePolicyApp
                 repo.EnsureCreated();
 
 
-                Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 01), new DateTime(2028, 12, 01));
-                string display = policy.ToString();
-                Console.WriteLine(display);
-
+                Policy policy = new Policy(1, "Sakshi", PolicyType.Health, new DateTime(2025, 12, 1), new DateTime(2028, 12, 1));
                 repo.AddPolicyToDB(policy);
+
+                Policy policy2 = new Policy(2, "Bhushan", PolicyType.Vehicle, new DateTime(2002, 1, 3), new DateTime(2030, 12, 12));
+                repo.AddPolicyToDB(policy2);
+
+
+                repo.ViewByIdDB(2);
+
+                repo.DeleteByIdDB(2);
 
             }
             catch (Exception ex)

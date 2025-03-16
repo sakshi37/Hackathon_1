@@ -6,9 +6,9 @@ namespace InsurancePolicy.Interface
 {
     interface IPolicyRepo
     {
-        string ViewAllPolicy();
+        //string ViewAllPolicy();
 
-        Policy UpdatePolicy(int id, Policy updatedPolicy);
+        Policy UpdatePolicyDB(int id, Policy updatedPolicy);
 
 
         Policy DeleteByIdDB(int id);

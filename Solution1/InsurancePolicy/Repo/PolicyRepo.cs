@@ -84,10 +84,9 @@ namespace InsurancePolicy.Repo
             selectCmd.Parameters.Add("@PolicyId", SqlDbType.Int).Value = id;
             connection.Open();
             SqlDataReader reader = selectCmd.ExecuteReader();
-            if (reader.HasRows)
-            {
-                reader.Read();
 
+            if (reader.Read())
+            {
                 int policyId = (int)reader[0];
                 string policyHolderName = (string)reader[1];
                 PolicyType type = (PolicyType)reader[2];
@@ -100,6 +99,7 @@ namespace InsurancePolicy.Repo
                 return policy;
             }
 
+
             connection.Close();
             throw new PolicyNotFoundException("Policy not found");
         }
@@ -109,37 +109,52 @@ namespace InsurancePolicy.Repo
         public string ViewAllPolicy()
         {
             string policyString = "";
-            if (policies.Count > 0)
-            {
-                foreach (var kv in policies)
-                {
-                    Policy policy = kv.Value;
-                    string stringForm = policy.ToString();
-                    policyString += stringForm;
-                    policyString += "\n \n";
-                }
+            string selectQuery = "select policy_id, policy_holder_name, type, start_date, end_date from policies ";
+            SqlCommand selectCmd = new SqlCommand(selectQuery, connection);
+            connection.Open();
+            SqlDataReader reader = selectCmd.ExecuteReader();
 
-                return policyString;
-            }
-            else
+            while (reader.Read())
             {
-                Console.WriteLine("No policy exist");
-                return policyString;
+                int id = (int)reader[0];
+                string name = (string)reader[1];
+                PolicyType type = (PolicyType)reader[2];
+                DateTime startDate = (DateTime)reader[3];
+                DateTime endDate = (DateTime)reader[4];
+                Policy policy = new Policy(id, name, type, startDate, endDate);
+                string policySt = policy.ToString();
+                policyString += policySt;
+                policyString += "\n \n";
+
+
             }
+            connection.Close();
+
+
+            return policyString;
+
+
         }
 
-        public Policy UpdatePolicy(int id, Policy updatedPolicy)
+        public Policy UpdatePolicyDB(int id, Policy updatedPolicy)
         {
-            if (policies.ContainsKey(id))
-            {
-                policies[id] = updatedPolicy;
-                return policies[id];
-            }
-            else
-            {
-                throw new PolicyNotFoundException("Policy does not exist");
-            }
+            this.ViewByIdDB(id);
+
+            string updateQuery = "Update policies set policy_holder_name = @PolicyHolderName,type = @Type, end_date = @EndDate where policy_id = @PolicyId";
+            SqlCommand updateCmd = new SqlCommand(updateQuery, connection);
+            updateCmd.Parameters.Add("PolicyId", SqlDbType.Int).Value = id;
+            updateCmd.Parameters.Add("@PolicyHolderName", SqlDbType.VarChar, 20).Value = updatedPolicy.PolicyHolderName;
+            updateCmd.Parameters.Add("@Type", SqlDbType.Int).Value = updatedPolicy.Type;
+            updateCmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = updatedPolicy.EndDate;
+
+            connection.Open();
+            updateCmd.ExecuteNonQuery();
+            connection.Close();
+            return updatedPolicy;
+
         }
+
+
 
 
         public Policy DeleteByIdDB(int id)

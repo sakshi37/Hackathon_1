@@ -1,0 +1,44 @@
+﻿@model List<Rental_Vehicle.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "All Vehicles";
+}
+
+<h1>All Vehicles</h1>
+
+@if (!Model.Any()) 
+{
+    <p>No vehicles found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().Model)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Brand)</th>
+                <th>@Html.DisplayNameFor(model => model.First().RentalPricePerDay)</th>
+                <th>@Html.DisplayNameFor(model => model.First().IsAvailable)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vehicle in Model) 
+            {
+                <tr>
+                    <td>@vehicle.Model</td>
+                    <td>@vehicle.Brand</td>
+                    <td>@vehicle.RentalPricePerDay</td>
+                    <td>@(vehicle.IsAvailable ? "Yes" : "No")</td>
+                    <td>
+                        <a asp-action="UpdateVehicleById"  asp-route-id="@vehicle.VehicleId" class="btn btn-primary">Update</a>
+                        <a asp-action="Details" asp-route-id="@vehicle.VehicleId" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@vehicle.VehicleId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-controller="Vehicle" asp-action="AddVehicle" class="btn btn-success">Add New Vehicle</a>
